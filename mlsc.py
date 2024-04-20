@@ -7,6 +7,9 @@ import datetime
 from datetime import date, timedelta
 
 
+
+
+
 # Load model directly
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
@@ -223,7 +226,7 @@ def app():
         st.write("Stock Exchange: ", fetch_stock_exchange(symbol))
         st.write("Stock Ticker: ", fetch_stock_ticker(symbol))
         st.write("Stock Country: ", fetch_stock_country(symbol))
-        st.write("Stock Image: ")
+        st.write(f"Stock Image:")
         st.image(fetch_stock_image(symbol),width=500 , caption='Company Logo')
     
     
