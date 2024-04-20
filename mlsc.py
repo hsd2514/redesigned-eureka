@@ -169,42 +169,42 @@ def app():
     symbol = st.sidebar.text_input("Enter Stock Symbol", value='AAPL')
     start_date = st.sidebar.date_input("Start Date", value=pd.to_datetime('2021-01-01'))
     end_date = st.sidebar.date_input("End Date", value=pd.to_datetime('2021-12-31'))
-    chart_types = st.sidebar.multiselect("Select Chart Types", ['Line Chart', 'Candlestick Chart', 'Bar Chart', 'Triangle Chart'])
+    chart_types = st.sidebar.multiselect("Select Chart Types", ['Line Chart', 'Candlestick Chart', 'Bar Chart', 'Triangle Chart'], default=['Candlestick Chart'])
     
     stock_data = fetch_stock_data(symbol, start_date, end_date)
     
     #tabs
     
-    tab1 , tab2 , tab3 = st.tabs(["Stock Price Visualisation ", "Company Profile", "Stock News Sentiment"])
+    tab1 , tab2 , tab3 = st.tabs(["Stock Price Visualisation :desktop_computer:", "Company Profile :office:", "Stock News Sentiment :newspaper:"])
     
     # Visualize stock prices
 
     with tab1:
-        st.header(f"Stock Price Data for {symbol}")
+        st.header(f"Stock Price Data for {symbol} :money_with_wings:")
         
 
         if 'Line Chart' in chart_types:
-            st.header("Stock Price Line Chart")
+            st.header("Stock Price Line Chart :chart:")
             fig_line_chart = visualize_line_chart(stock_data)
             st.plotly_chart(fig_line_chart)
 
         if 'Candlestick Chart' in chart_types:
-            st.header("Stock Price Candlestick Chart")
+            st.header("Stock Price Candlestick Chart :candle:")
             fig_candlestick_chart = visualize_candlestick_chart(stock_data)
             st.plotly_chart(fig_candlestick_chart)
 
         if 'Bar Chart' in chart_types:
-            st.header("Stock Price Bar Chart")
+            st.header("Stock Price Bar Chart :bar_chart: ")
             fig_bar_chart = visualize_bar_chart(stock_data)
             st.plotly_chart(fig_bar_chart)
 
         if 'Triangle Chart' in chart_types:
-            st.header("Stock Price Triangle Chart")
+            st.header("Stock Price Triangle Chart :small_red_triangle:")
             fig_triangle_chart = visualize_triangle_chart(stock_data)
             st.plotly_chart(fig_triangle_chart)
         
         if not stock_data.empty:
-            st.header(f"Stock Price Data for {symbol}")
+            st.header(f"Stock Price Data for {symbol} :money_mouth_face:")
             st.write(stock_data)
         
         if stock_data.empty:
@@ -232,10 +232,10 @@ def app():
         st.title("Stock News")
         news = fetch_stock_news(symbol)
         for i in news:
-            st.subheader(i['headline'])
-            st.write(i['summary'])
-            st.write(i['url'])
-            st.write(i['source'])
+            st.subheader(f" :scroll: {i['headline']}")
+            st.write(f" :pushpin: {i['summary']}")
+            st.write(f" :link: {i['url']}")
+            st.write(f" :information_source: {i['source']}")
             
         
 
