@@ -137,6 +137,16 @@ def visualize_triangle_chart(stock_data):
     fig.update_layout(title='Stock Price Triangle Chart', xaxis_title='Date', yaxis_title='Price')
     return fig
 
+def return_sentment_emoji(sentiment):
+    if sentiment == "bullish":
+        return ":chart_with_upwards_trend:"
+    if  sentiment == "bearish":
+        return ":chart_with_downwards_trend:"
+    else:
+        return ":neutral_face:"
+
+
+
 def app():
     
     # side bar
@@ -149,32 +159,32 @@ def app():
     
      # Visualize stock prices
     if not stock_data.empty:
-        st.subheader(f"Stock Price Data for {symbol}")
+        st.header(f"Stock Price Data for {symbol}")
         st.write(stock_data)
 
         if 'Line Chart' in chart_types:
-            st.subheader("Stock Price Line Chart")
+            st.header("Stock Price Line Chart")
             fig_line_chart = visualize_line_chart(stock_data)
             st.plotly_chart(fig_line_chart)
 
         if 'Candlestick Chart' in chart_types:
-            st.subheader("Stock Price Candlestick Chart")
+            st.header("Stock Price Candlestick Chart")
             fig_candlestick_chart = visualize_candlestick_chart(stock_data)
             st.plotly_chart(fig_candlestick_chart)
 
         if 'Bar Chart' in chart_types:
-            st.subheader("Stock Price Bar Chart")
+            st.header("Stock Price Bar Chart")
             fig_bar_chart = visualize_bar_chart(stock_data)
             st.plotly_chart(fig_bar_chart)
 
         if 'Triangle Chart' in chart_types:
-            st.subheader("Stock Price Triangle Chart")
+            st.header("Stock Price Triangle Chart")
             fig_triangle_chart = visualize_triangle_chart(stock_data)
             st.plotly_chart(fig_triangle_chart)
     
     st.divider()
             
-    st.subheader("Company Profile")
+    st.header("Company Profile")
     st.write("Company Name: ", fetch_stock_name(symbol))
     st.write("Stock Exchange: ", fetch_stock_exchange(symbol))
     st.write("Stock Ticker: ", fetch_stock_ticker(symbol))
@@ -184,21 +194,21 @@ def app():
     
     st.divider()
     
-    st.subheader("Stock News")
+    st.title("Stock News")
     news = fetch_stock_news(symbol)
     for i in news:
-        st.write(i['headline'])
+        st.subheader(i['headline'])
         st.write(i['summary'])
         st.write(i['url'])
         st.write(i['source'])
-        st.write(f"Sentiment: {fetch_news_sentiment(i['summary'])[0]['label']}")
+        st.write(f"_Sentiment: {fetch_news_sentiment(i['summary'])[0]['label']}{return_sentment_emoji(fetch_news_sentiment(i['summary'])[0]['label'])}_")
         st.write('-----------------------------------')
 
     # st.write(fetch_stockholders(symbol))
     
     # # Fetch and display largest stockholders
     # stockholders_df = fetch_stockholders(symbol)
-    # st.subheader("Largest Stockholders")
+    # st.header("Largest Stockholders")
     # st.write(stockholders_df)
 
     
