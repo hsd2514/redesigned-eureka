@@ -201,7 +201,11 @@ def app():
         st.write(i['summary'])
         st.write(i['url'])
         st.write(i['source'])
-        st.write(f"_Sentiment: {fetch_news_sentiment(i['summary'])[0]['label']}{return_sentment_emoji(fetch_news_sentiment(i['summary'])[0]['label'])}_")
+        
+    
+
+
+        st.subheader(f"**_Sentiment: {fetch_news_sentiment(i['summary'])[0]['label']}{return_sentment_emoji(fetch_news_sentiment(i['summary'])[0]['label'])}_**")
         st.write('-----------------------------------')
 
     # st.write(fetch_stockholders(symbol))
