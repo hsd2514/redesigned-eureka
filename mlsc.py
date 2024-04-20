@@ -139,11 +139,27 @@ def visualize_triangle_chart(stock_data):
 
 def return_sentment_emoji(sentiment):
     if sentiment == "bullish":
-        return ":chart_with_upwards_trend:"
+        emoji = ":chart_with_upwards_trend:"
+        return emoji
     if  sentiment == "bearish":
-        return ":chart_with_downwards_trend:"
+        emoji = ":chart_with_downwards_trend:"
+        return emoji
+
     else:
-        return ":neutral_face:"
+        emoji = ":neutral_face:"
+        return emoji
+
+def return_sentiment_color(sentiment):
+    if sentiment == "bullish":
+        color = ":green"
+        return color
+    if  sentiment == "bearish":
+        color = ":red"
+        return color
+
+    else:
+        color = ":grey"
+        return color
 
 
 
@@ -157,10 +173,15 @@ def app():
     
     stock_data = fetch_stock_data(symbol, start_date, end_date)
     
-     # Visualize stock prices
-    if not stock_data.empty:
+    #tabs
+    
+    tab1 , tab2 , tab3 = st.tabs(["Stock Price Visualisation ", "Company Profile", "Stock News Sentiment"])
+    
+    # Visualize stock prices
+
+    with tab1:
         st.header(f"Stock Price Data for {symbol}")
-        st.write(stock_data)
+        
 
         if 'Line Chart' in chart_types:
             st.header("Stock Price Line Chart")
@@ -181,32 +202,50 @@ def app():
             st.header("Stock Price Triangle Chart")
             fig_triangle_chart = visualize_triangle_chart(stock_data)
             st.plotly_chart(fig_triangle_chart)
-    
-    st.divider()
-            
-    st.header("Company Profile")
-    st.write("Company Name: ", fetch_stock_name(symbol))
-    st.write("Stock Exchange: ", fetch_stock_exchange(symbol))
-    st.write("Stock Ticker: ", fetch_stock_ticker(symbol))
-    st.write("Stock Country: ", fetch_stock_country(symbol))
-    st.write("Stock Image: ")
-    st.image(fetch_stock_image(symbol),width=500 , caption='Company Logo')
-    
-    st.divider()
-    
-    st.title("Stock News")
-    news = fetch_stock_news(symbol)
-    for i in news:
-        st.subheader(i['headline'])
-        st.write(i['summary'])
-        st.write(i['url'])
-        st.write(i['source'])
         
+        if not stock_data.empty:
+            st.header(f"Stock Price Data for {symbol}")
+            st.write(stock_data)
+        
+        if stock_data.empty:
+            
+            st.write(stock_data)
+
+
+
+
     
+    
+    with tab2:
+
+        st.header("Company Profile")
+        st.write("Company Name: ", fetch_stock_name(symbol))
+        st.write("Stock Exchange: ", fetch_stock_exchange(symbol))
+        st.write("Stock Ticker: ", fetch_stock_ticker(symbol))
+        st.write("Stock Country: ", fetch_stock_country(symbol))
+        st.write("Stock Image: ")
+        st.image(fetch_stock_image(symbol),width=500 , caption='Company Logo')
+    
+    
+    with tab3:
+
+        st.title("Stock News")
+        news = fetch_stock_news(symbol)
+        for i in news:
+            st.subheader(i['headline'])
+            st.write(i['summary'])
+            st.write(i['url'])
+            st.write(i['source'])
+            
+        
 
 
-        st.subheader(f"**_Sentiment: {fetch_news_sentiment(i['summary'])[0]['label']}{return_sentment_emoji(fetch_news_sentiment(i['summary'])[0]['label'])}_**")
-        st.write('-----------------------------------')
+            sentiment = fetch_news_sentiment(i['summary'])[0]['label']
+            emoji= return_sentment_emoji(sentiment)
+            color= return_sentiment_color(sentiment)
+            st.subheader(f"**_Sentiment: {color}[ {sentiment} ]{emoji}_**")
+            
+            st.write('-----------------------------------')
 
     # st.write(fetch_stockholders(symbol))
     
